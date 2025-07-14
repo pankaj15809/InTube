@@ -9,7 +9,7 @@ const createPlaylist = asyncHandler(async (req, res) => {
     //DONE: create playlist
     try {
         if ([name, description].some((field) => field?.trim() == ""))
-            throw ApiError(404, "Name, Description is required");
+            throw new ApiError(404, "Name, Description is required");
 
         const createPlaylist = await Playlist.create({
             name,
@@ -184,9 +184,9 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
         if ([playlistId, videoId].some((field) => field?.trim() == ""))
             throw new ApiError(400, "Playlist and Video id is require");
         if (!isValidObjectId(playlistId))
-            throw new ApiError(404, "playlist id is not valid");
+            throw new ApiError(404, "playlistId is not valid");
         if (!isValidObjectId(videoId))
-            throw new ApiError(404, "video id is not valid");
+            throw new ApiError(404, "videoId is not valid");
 
         const playlist = await Playlist.findById(playlistId);
         if (!playlist.videos.includes(videoId)) {

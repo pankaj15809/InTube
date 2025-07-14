@@ -11,7 +11,7 @@ import {
 } from "../utils/cloudinary.js";
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 9, query, sortBy, sortType, userId } = req.query;
+    const { page = 1, limit = 9, query, sortBy = "createdAt", sortType = "desc", userId } = req.query;
     //DONE: get all videos based on query, sort, pagination
 
     const options = {
@@ -100,6 +100,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
                         $project: {
                             fullName: 1,
                             avatar: 1,
+                            username:1,
                         },
                     },
                 ],
@@ -113,6 +114,9 @@ const getAllVideos = asyncHandler(async (req, res) => {
                 avatar: {
                     $arrayElemAt: ["$owner.avatar", 0],
                 },
+                username:{
+                    $arrayElemAt:["$owner.username",0]
+                }
             },
         },
     ]);
